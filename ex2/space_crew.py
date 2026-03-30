@@ -1,6 +1,6 @@
 from datetime import datetime
 from enum import Enum
-from typing import List
+from typing import List, Union
 from pydantic import BaseModel, Field, ValidationError, model_validator
 
 
@@ -15,7 +15,7 @@ class Rank(str, Enum):
 class CrewMember(BaseModel):
     member_id: str = Field(min_length=3, max_length=10)
     name: str = Field(min_length=2, max_length=50)
-    rank: Rank
+    rank: Union[str, Rank]
     age: int = Field(ge=18, le=80)
     specialization: str = Field(min_length=3, max_length=30)
     years_experience: int = Field(ge=0, le=50)
@@ -26,7 +26,7 @@ class SpaceMission(BaseModel):
     mission_id: str = Field(min_length=5, max_length=15)
     mission_name: str = Field(min_length=3, max_length=100)
     destination: str = Field(min_length=3, max_length=50)
-    launch_date: datetime
+    launch_date: Union[str, datetime]
     duration_days: int = Field(ge=1, le=3650)
     crew: List[CrewMember] = Field(min_length=1, max_length=12)
     mission_status: str = "planned"
@@ -69,14 +69,14 @@ def main() -> None:
             mission_id="M2024_MARS",
             mission_name="Mars Colony Establishment",
             destination="Mars",
-            launch_date="2024-06-01T09:00:00",
+            launch_date=datetime.fromisoformat("2024-06-01T09:00:00"),
             duration_days=900,
             budget_millions=2500.0,
             crew=[
                 CrewMember(
                     member_id="CM001",
                     name="Sarah Connor",
-                    rank="commander",
+                    rank=Rank.commander,
                     age=40,
                     specialization="Mission Command",
                     years_experience=12
@@ -84,7 +84,7 @@ def main() -> None:
                 CrewMember(
                     member_id="CM002",
                     name="John Smith",
-                    rank="lieutenant",
+                    rank=Rank.lieutenant,
                     age=35,
                     specialization="Navigation",
                     years_experience=7
@@ -92,7 +92,7 @@ def main() -> None:
                 CrewMember(
                     member_id="CM003",
                     name="Alice Johnson",
-                    rank="officer",
+                    rank=Rank.officer,
                     age=30,
                     specialization="Engineering",
                     years_experience=4
@@ -129,7 +129,7 @@ def main() -> None:
                 CrewMember(
                     member_id="CM004",
                     name="Bob Lee",
-                    rank="lieutenant",
+                    rank=Rank.lieutenant,
                     age=32,
                     specialization="Science Officer",
                     years_experience=6

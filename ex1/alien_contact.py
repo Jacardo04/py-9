@@ -1,6 +1,6 @@
 from datetime import datetime
 from enum import Enum
-from typing import Optional
+from typing import Optional, Union
 from pydantic import BaseModel, Field, ValidationError, model_validator
 
 
@@ -13,9 +13,9 @@ class ContactType(str, Enum):
 
 class AlienContact(BaseModel):
     contact_id: str = Field(min_length=5, max_length=15)
-    timestamp: datetime
+    timestamp: Union[str, datetime]
     location: str = Field(min_length=3, max_length=100)
-    contact_type: ContactType
+    contact_type: Union[str, ContactType]
     signal_strength: float = Field(ge=0.0, le=10.0)
     duration_minutes: int = Field(ge=1, le=1440)
     witness_count: int = Field(ge=1, le=100)
@@ -51,9 +51,9 @@ def main() -> None:
     try:
         valid_contact = AlienContact(
             contact_id="AC_2024_001",
-            timestamp="2024-03-01T14:30:00",
+            timestamp=datetime.fromisoformat("2024-03-01T14:30:00"),
             location="Area 51, Nevada",
-            contact_type="radio",
+            contact_type=ContactType.radio,
             signal_strength=8.5,
             duration_minutes=45,
             witness_count=5,
@@ -78,9 +78,9 @@ def main() -> None:
     try:
         AlienContact(
             contact_id="AC_2024_002",
-            timestamp="2024-03-02T09:15:00",
+            timestamp=datetime.fromisoformat("2024-03-02T09:15:00"),
             location="Roswell, New Mexico",
-            contact_type="telepathic",
+            contact_type=ContactType.telepathic,
             signal_strength=6.2,
             duration_minutes=30,
             witness_count=1,  # Too few witnesses
