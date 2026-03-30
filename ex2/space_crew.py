@@ -45,7 +45,7 @@ class SpaceMission(BaseModel):
                              "or Captain")
 
         if self.duration_days > 365:
-            experienced_count = sum(1 for c in self.crew if 
+            experienced_count = sum(1 for c in self.crew if
                                     c.years_experience >= 5)
             if experienced_count < len(self.crew) / 2:
                 raise ValueError(
