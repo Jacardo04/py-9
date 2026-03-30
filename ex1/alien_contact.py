@@ -13,7 +13,7 @@ class ContactType(str, Enum):
 
 class AlienContact(BaseModel):
     contact_id: str = Field(min_length=5, max_length=15)
-    timestamp: Union[str, datetime]
+    timestamp: datetime
     location: str = Field(min_length=3, max_length=100)
     contact_type: Union[str, ContactType]
     signal_strength: float = Field(ge=0.0, le=10.0)
@@ -51,7 +51,7 @@ def main() -> None:
     try:
         valid_contact = AlienContact(
             contact_id="AC_2024_001",
-            timestamp=datetime.fromisoformat("2024-03-01T14:30:00"),
+            timestamp="2024-03-01T14:30:00",
             location="Area 51, Nevada",
             contact_type=ContactType.radio,
             signal_strength=8.5,
@@ -78,7 +78,7 @@ def main() -> None:
     try:
         AlienContact(
             contact_id="AC_2024_002",
-            timestamp=datetime.fromisoformat("2024-03-02T09:15:00"),
+            timestamp="2024-03-02T09:15:00",
             location="Roswell, New Mexico",
             contact_type=ContactType.telepathic,
             signal_strength=6.2,

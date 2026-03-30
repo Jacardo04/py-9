@@ -26,7 +26,7 @@ class SpaceMission(BaseModel):
     mission_id: str = Field(min_length=5, max_length=15)
     mission_name: str = Field(min_length=3, max_length=100)
     destination: str = Field(min_length=3, max_length=50)
-    launch_date: Union[str, datetime]
+    launch_date: datetime
     duration_days: int = Field(ge=1, le=3650)
     crew: List[CrewMember] = Field(min_length=1, max_length=12)
     mission_status: str = "planned"
@@ -69,7 +69,7 @@ def main() -> None:
             mission_id="M2024_MARS",
             mission_name="Mars Colony Establishment",
             destination="Mars",
-            launch_date=datetime.fromisoformat("2024-06-01T09:00:00"),
+            launch_date="2024-06-01T09:00:00",
             duration_days=900,
             budget_millions=2500.0,
             crew=[
