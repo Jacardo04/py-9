@@ -61,3 +61,6 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+# python3 -m venv venv
+# source venv/bin/activate
+# ip install pydantic use this if pydanic cant be used
